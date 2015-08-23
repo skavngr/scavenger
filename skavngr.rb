@@ -5,6 +5,8 @@
 #Codename   	: Scavenger 1.0a								                                     
 #Description	: A brute force script that attempts to break in Hikvision IP Camera Routers
 #Filename	: skavngr.rb
+
+#Disclaimer 	: This proof-of-concept is not intended to be used for malicious purposes. The author is not responsible for any loss or damage caused.
 ###################################################################################################
 
 
@@ -55,7 +57,7 @@ def multi_channel_split(target,req,passwords)
 		i=0
 		j=0
 
-		# The default concurrency is 200, I had it set to 20. Try increasing this parameter to experiment variety of speed.
+		# The default concurrency is 200, I had it set to 20. Try increasing this parameter to experiment the performance kick.
 		hydra = Typhoeus::Hydra.new(max_concurrency: 20)
 		
 		# I am setting the verbosity and memoisation to 0. Memoisation should be set to false for calls with different set of parameters.
@@ -100,4 +102,6 @@ new_pass.each do |req|
 end
 
 puts "\nPassword was not found in this list. Subject another file to start a new operation.".red
+
+# End of Proof of Concept
 ####################################################################################################
