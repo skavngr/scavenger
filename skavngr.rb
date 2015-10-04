@@ -20,7 +20,7 @@ require 'colorize'
 target = 'targetipaddressoftherouter'
 
 ### Provide the password list ###
-file_path = 'pathtoyourpasswordlist'
+file_path = 'passwd.lst' # A sample 6 digit passfile ranging from 000000 to 999999
 
 ######## Configuration Ends ##########
 
